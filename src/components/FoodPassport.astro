@@ -1,0 +1,329 @@
+---
+import { foods, uiText } from '../data/danang';
+import I18nText from './I18nText.astro';
+---
+
+<section class="food-section" id="food-passport">
+  <div class="container">
+    <div class="section-header">
+      <div class="cute-pill-tag">
+        <I18nText t={uiText.foodSection.tag} />
+      </div>
+      <h2 class="section-title">
+        <I18nText t={uiText.foodSection.title} />
+      </h2>
+      <p class="section-subtitle">
+        <I18nText t={uiText.foodSection.subtitle} />
+      </p>
+    </div>
+
+    <!-- Interactive Passport Stamp Progress Bar -->
+    <div class="passport-bar">
+      <div class="passport-bar__info">
+        <span class="passport-bar__label">
+          <I18nText t={uiText.foodSection.progressTitle} />
+        </span>
+        <strong class="passport-bar__count" id="stamp-counter">0 / {foods.length}</strong>
+      </div>
+
+      <div class="passport-bar__track" aria-hidden="true">
+        <div class="passport-bar__fill" id="stamp-progress-fill" style="width: 0%"></div>
+      </div>
+
+      <div class="passport-congrats" id="passport-congrats" style="display: none;">
+        <I18nText t={uiText.foodSection.congratsBadge} />
+      </div>
+
+      <button type="button" class="passport-reset-btn" id="reset-passport-btn">
+        <I18nText t={uiText.foodSection.resetBtn} />
+      </button>
+    </div>
+
+    <!-- 5 Cute Illustrated Food Cards -->
+    <div class="food-grid">
+      {foods.map((food) => (
+        <article class={`food-card food-card--${food.accentColor}`} data-food-card={food.id}>
+          <!-- Rotated Cute Stamp Seal (Appears when stamped!) -->
+          <div class="kawaii-stamp" aria-hidden="true">
+            <I18nText t={uiText.foodSection.stampBadge} />
+          </div>
+
+          <!-- Cute SVG Food Bowl Illustration -->
+          <div class="food-card__visual" aria-hidden="true">
+            {food.visualType === 'miquang' && (
+              <svg viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="6" width="208" height="128" rx="20" fill="#FFF4C7" stroke="#1E2E3E" stroke-width="2.5" />
+                <ellipse cx="110" cy="76" rx="64" ry="38" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="3" />
+                <ellipse cx="110" cy="74" rx="52" ry="28" fill="#FFE07D" stroke="#1E2E3E" stroke-width="2" />
+                <!-- Shrimp, Quail Egg & Rice Cracker -->
+                <circle cx="92" cy="70" r="10" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="2.5" />
+                <circle cx="92" cy="70" r="4" fill="#FFA8C5" />
+                <path d="M115 64 C128 54, 142 64, 132 78" stroke="#FFA8C5" stroke-width="7" stroke-linecap="round" />
+                <circle cx="106" cy="84" r="5" fill="#8AE6C1" />
+                <circle cx="122" cy="82" r="5" fill="#8AE6C1" />
+              </svg>
+            )}
+
+            {food.visualType === 'banhtrang' && (
+              <svg viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="6" width="208" height="128" rx="20" fill="#D7FAEC" stroke="#1E2E3E" stroke-width="2.5" />
+                <rect x="44" y="48" width="86" height="36" rx="18" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="3" />
+                <circle cx="48" cy="66" r="12" fill="#8AE6C1" stroke="#1E2E3E" stroke-width="2.5" />
+                <!-- Mam Nem Dipping Bowl -->
+                <circle cx="158" cy="78" r="24" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3" />
+                <circle cx="158" cy="78" r="15" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2" />
+              </svg>
+            )}
+
+            {food.visualType === 'banhxeo' && (
+              <svg viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="6" width="208" height="128" rx="20" fill="#FFF4C7" stroke="#1E2E3E" stroke-width="2.5" />
+                <!-- Half-Moon Crispy Golden Crepe -->
+                <path d="M48 96 C48 44, 172 44, 172 96 Z" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3" />
+                <circle cx="92" cy="78" r="6" fill="#FFA8C5" />
+                <circle cx="126" cy="74" r="6" fill="#8AE6C1" />
+                <circle cx="110" cy="84" r="5" fill="#FFA8C5" />
+              </svg>
+            )}
+
+            {food.visualType === 'haisan' && (
+              <svg viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="6" width="208" height="128" rx="20" fill="#DFF1FF" stroke="#1E2E3E" stroke-width="2.5" />
+                <!-- Cute Smiling Crab / Seafood -->
+                <ellipse cx="110" cy="78" rx="42" ry="28" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" />
+                <circle cx="96" cy="70" r="4" fill="#1E2E3E" />
+                <circle cx="124" cy="70" r="4" fill="#1E2E3E" />
+                <path d="M103 80 Q110 86 117 80" stroke="#1E2E3E" stroke-width="2.5" stroke-linecap="round" fill="none" />
+                <circle cx="64" cy="54" r="12" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" />
+                <circle cx="156" cy="54" r="12" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" />
+              </svg>
+            )}
+
+            {food.visualType === 'che' && (
+              <svg viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="6" width="208" height="128" rx="20" fill="#FFE2EC" stroke="#1E2E3E" stroke-width="2.5" />
+                <!-- Cute Parfait Glass with Avocado & Coconut Scoop -->
+                <path d="M78 52 L142 52 L130 114 L90 114 Z" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="3" stroke-linejoin="round" />
+                <path d="M83 78 L137 78 L130 112 L90 112 Z" fill="#8AE6C1" />
+                <circle cx="110" cy="48" r="20" fill="#FFF4C7" stroke="#1E2E3E" stroke-width="3" />
+                <circle cx="122" cy="34" r="7" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2.5" />
+              </svg>
+            )}
+          </div>
+
+          <div class="food-card__head">
+            <span class="food-card__tag">
+              <I18nText t={food.tag} />
+            </span>
+            <span class="food-card__price">{food.priceRange}</span>
+          </div>
+
+          <h3 class="food-card__title">
+            <I18nText t={food.name} />
+          </h3>
+          <p class="food-card__pronounce">{food.pronunciation}</p>
+
+          <p class="food-card__desc">
+            <I18nText t={food.description} />
+          </p>
+
+          <p class="food-card__where">
+            <I18nText t={food.whereToEat} />
+          </p>
+
+          <button
+            type="button"
+            class="cute-btn food-stamp-btn"
+            data-stamp-trigger={food.id}
+          >
+            <span class="lbl-unstamped">
+              <I18nText t={uiText.foodSection.stampBtn} />
+            </span>
+            <span class="lbl-stamped" style="display: none;">
+              <I18nText t={uiText.foodSection.stampedBtn} />
+            </span>
+          </button>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .food-section {
+    padding: 72px 0;
+  }
+
+  .passport-bar {
+    max-width: 760px;
+    margin: 0 auto 42px;
+    padding: 22px 28px;
+    background: var(--bg-card);
+    border: var(--border-cute);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-cute);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .passport-bar__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-display);
+    font-size: 17px;
+  }
+
+  .passport-bar__count {
+    font-size: 22px;
+    color: var(--pastel-blue);
+  }
+
+  .passport-bar__track {
+    width: 100%;
+    height: 18px;
+    background: var(--bg-ocean-soft);
+    border: 2.5px solid #1e2e3e;
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+
+  .passport-bar__fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pastel-blue), var(--pastel-mint), var(--pastel-pink));
+    transition: width 0.4s var(--bounce-ease);
+  }
+
+  .passport-congrats {
+    background: var(--pastel-yellow);
+    color: #1e2e3e;
+    border: 2.5px solid #1e2e3e;
+    border-radius: 18px;
+    padding: 12px 16px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-align: center;
+    animation: sparkle-pop 1.8s ease-in-out infinite;
+  }
+
+  .passport-reset-btn {
+    align-self: flex-end;
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-decoration: underline;
+  }
+
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 26px;
+  }
+
+  .food-card {
+    position: relative;
+    background: var(--bg-card);
+    border: var(--border-cute);
+    border-radius: var(--radius-xl);
+    padding: 22px;
+    box-shadow: var(--shadow-cute);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.25s var(--bounce-ease);
+  }
+
+  .food-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .kawaii-stamp {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 3;
+    padding: 6px 14px;
+    border: 3px dashed #e11d48;
+    border-radius: 14px;
+    background: rgba(255, 226, 236, 0.94);
+    color: #e11d48;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    transform: rotate(12deg) scale(0);
+    opacity: 0;
+    transition: transform 0.35s var(--bounce-ease), opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .food-card.is-stamped .kawaii-stamp {
+    transform: rotate(-10deg) scale(1);
+    opacity: 1;
+  }
+
+  .food-card__visual svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .food-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .food-card__tag {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--pastel-yellow);
+    color: #1e2e3e;
+    border: 2px solid #1e2e3e;
+  }
+
+  .food-card__price {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--pastel-blue);
+    font-weight: 700;
+  }
+
+  .food-card__title {
+    font-family: var(--font-display);
+    font-size: 21px;
+    line-height: 1.25;
+  }
+
+  .food-card__pronounce {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .food-card__desc {
+    font-size: 14.5px;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+
+  .food-card__where {
+    font-size: 13px;
+    background: var(--bg-ocean-soft);
+    padding: 9px 12px;
+    border-radius: 14px;
+    margin-top: auto;
+  }
+
+  .food-stamp-btn {
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  .food-card.is-stamped .food-stamp-btn {
+    background: var(--pastel-mint);
+  }
+</style>

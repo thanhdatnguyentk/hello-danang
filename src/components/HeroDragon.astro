@@ -1,0 +1,417 @@
+---
+import { cityStats, uiText } from '../data/danang';
+import I18nText from './I18nText.astro';
+---
+
+<section class="hero" id="top">
+  <div class="container hero__grid">
+    <!-- Left Column: Cute Greeting & Interactive Dragon Controls -->
+    <div class="hero__content">
+      <div class="cute-pill-tag">
+        <I18nText t={uiText.hero.pill} />
+      </div>
+
+      <h1 class="hero__title">
+        <span class="hero__title-greeting">
+          <I18nText t={uiText.hero.titleLine1} />
+        </span>
+        <span class="hero__title-city">
+          <I18nText t={uiText.hero.titleHighlight} />
+        </span>
+      </h1>
+
+      <p class="hero__subtitle">
+        <I18nText t={uiText.hero.subtitle} />
+      </p>
+
+      <!-- Live Baby Dragon Speech Bubble -->
+      <div class="dragon-status-box" id="dragon-status-box" role="status" aria-live="polite">
+        <span class="dragon-status-msg" data-mood="idle">
+          <I18nText t={uiText.hero.dragonMoodIdle} />
+        </span>
+        <span class="dragon-status-msg" data-mood="fire" style="display:none">
+          <I18nText t={uiText.hero.dragonMoodFire} />
+        </span>
+        <span class="dragon-status-msg" data-mood="water" style="display:none">
+          <I18nText t={uiText.hero.dragonMoodWater} />
+        </span>
+      </div>
+
+      <!-- Interactive Cute Action Buttons -->
+      <div class="hero__actions">
+        <button type="button" class="cute-btn" id="btn-dragon-fire">
+          <I18nText t={uiText.hero.btnFire} />
+        </button>
+        <button type="button" class="cute-btn cute-btn--blue" id="btn-dragon-water">
+          <I18nText t={uiText.hero.btnWater} />
+        </button>
+        <button type="button" class="cute-btn cute-btn--pink" id="btn-hero-sky">
+          <I18nText t={uiText.hero.btnDayNight} />
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Column: Illustrated Cute Baby Dragon & Han River Scene -->
+    <div class="hero__stage">
+      <div class="dragon-card" id="dragon-stage" data-effect="idle">
+        <svg
+          class="dragon-scene-svg"
+          viewBox="0 0 620 500"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-label="Cute illustrated Dragon Bridge and My Khe Beach in Da Nang"
+        >
+          <!-- Sky Backdrop inside frame -->
+          <rect class="scene-sky" x="10" y="10" width="600" height="480" rx="34" fill="#DFF1FF" stroke="#1E2E3E" stroke-width="4" />
+
+          <!-- Sun / Moon Orb -->
+          <g class="scene-celestial">
+            <circle class="sun-orb" cx="510" cy="92" r="42" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3.5" />
+            <!-- Cute happy face on the Sun -->
+            <circle cx="497" cy="88" r="3.5" fill="#1E2E3E" />
+            <circle cx="523" cy="88" r="3.5" fill="#1E2E3E" />
+            <path d="M504 97 Q510 103 516 97" stroke="#1E2E3E" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          </g>
+
+          <!-- Night Stars & Fireworks (visible in Night Mode) -->
+          <g class="scene-stars" opacity="0">
+            <circle cx="110" cy="70" r="4" fill="#FFE07D" />
+            <circle cx="240" cy="58" r="3" fill="#FFFFFF" />
+            <circle cx="380" cy="82" r="4" fill="#FFA8C5" />
+            <circle cx="160" cy="120" r="2.5" fill="#7CC6FE" />
+            <path d="M90 100 L96 100 M93 97 L93 103" stroke="#FFE07D" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M430 62 L438 62 M434 58 L434 66" stroke="#FFA8C5" stroke-width="2.5" stroke-linecap="round" />
+          </g>
+
+          <!-- Floating Fluffy Pastel Clouds -->
+          <g class="cloud-left">
+            <path
+              d="M75 115 C75 98 92 88 108 94 C116 80 138 80 146 94 C162 94 172 106 170 120 C170 130 160 136 146 136 H88 C78 136 75 126 75 115 Z"
+              fill="#FFFFFF"
+              stroke="#1E2E3E"
+              stroke-width="3"
+            />
+          </g>
+          <g class="cloud-right">
+            <path
+              d="M320 135 C320 120 335 112 348 117 C355 105 373 105 380 117 C393 117 402 127 400 138 C400 147 390 152 380 152 H332 C323 152 320 143 320 135 Z"
+              fill="#FFFFFF"
+              stroke="#1E2E3E"
+              stroke-width="3"
+            />
+          </g>
+
+          <!-- Distant Son Tra Green Peninsula & Lady Buddha Silhouette -->
+          <path
+            d="M14 345 Q130 265 265 345 Z"
+            fill="#8AE6C1"
+            stroke="#1E2E3E"
+            stroke-width="3"
+          />
+          <!-- Cute Sun Wheel (Vòng Quay Mặt Trời) -->
+          <g transform="translate(465, 240)">
+            <circle cx="45" cy="45" r="38" stroke="#FFA8C5" stroke-width="4" stroke-dasharray="8 6" fill="none" />
+            <circle cx="45" cy="45" r="8" fill="#FFE07D" stroke="#1E2E3E" stroke-width="2.5" />
+            <line x1="45" y1="45" x2="28" y2="95" stroke="#1E2E3E" stroke-width="3" />
+            <line x1="45" y1="45" x2="62" y2="95" stroke="#1E2E3E" stroke-width="3" />
+          </g>
+
+          <!-- Han River Bridge Deck -->
+          <rect x="14" y="336" width="592" height="18" rx="9" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="3.5" />
+          <rect x="120" y="354" width="22" height="65" fill="#BFE3FF" stroke="#1E2E3E" stroke-width="3" />
+          <rect x="310" y="354" width="22" height="65" fill="#BFE3FF" stroke="#1E2E3E" stroke-width="3" />
+          <rect x="480" y="354" width="22" height="65" fill="#BFE3FF" stroke="#1E2E3E" stroke-width="3" />
+
+          <!-- CUTE CHIBI DRAGON BRIDGE ARCHING ACROSS -->
+          <g class="cute-dragon-group">
+            <!-- Wavy Golden Dragon Body Arches -->
+            <path
+              d="M65 336 C115 245, 175 245, 225 336 C270 250, 330 250, 375 336"
+              stroke="#FFE07D"
+              stroke-width="30"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <path
+              d="M65 336 C115 245, 175 245, 225 336 C270 250, 330 250, 375 336"
+              stroke="#1E2E3E"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <!-- Cute Dorsal Scales -->
+            <circle cx="145" cy="252" r="9" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2.5" />
+            <circle cx="300" cy="256" r="9" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2.5" />
+
+            <!-- Cute Chibi Dragon Head -->
+            <g transform="translate(345, 185)">
+              <!-- Horns & Ears -->
+              <path d="M22 30 L12 6 L36 20" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" stroke-linejoin="round" />
+              <path d="M62 26 L70 4 L48 18" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" stroke-linejoin="round" />
+              <!-- Chubby Head -->
+              <rect x="10" y="20" width="86" height="72" rx="34" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3.5" />
+              <!-- Sparkling Kawaii Eyes -->
+              <circle cx="40" cy="50" r="6.5" fill="#1E2E3E" />
+              <circle cx="72" cy="50" r="6.5" fill="#1E2E3E" />
+              <circle cx="42" cy="47.5" r="2.3" fill="#FFFFFF" />
+              <circle cx="74" cy="47.5" r="2.3" fill="#FFFFFF" />
+              <!-- Rosy Cheeks -->
+              <ellipse cx="27" cy="60" rx="6" ry="3.5" fill="#FFA8C5" />
+              <ellipse cx="83" cy="60" rx="6" ry="3.5" fill="#FFA8C5" />
+              <!-- Cute Happy Mouth -->
+              <path d="M50 60 Q57 68 64 60" stroke="#1E2E3E" stroke-width="3" stroke-linecap="round" fill="none" />
+
+              <!-- FIRE BREATH STREAM (Visible when data-effect="fire") -->
+              <g class="dragon-fire-fx">
+                <path
+                  d="M98 54 C135 30, 185 24, 225 46 C195 66, 195 82, 220 92 C175 98, 130 82, 98 62 Z"
+                  fill="#FFA8C5"
+                  stroke="#1E2E3E"
+                  stroke-width="3"
+                />
+                <path
+                  d="M98 56 C128 42, 165 40, 192 55 C165 72, 132 74, 98 60 Z"
+                  fill="#FFE07D"
+                />
+                <text x="165" y="34" font-size="22">💖</text>
+                <text x="205" y="76" font-size="20">🔥</text>
+              </g>
+
+              <!-- WATER BUBBLE STREAM (Visible when data-effect="water") -->
+              <g class="dragon-water-fx">
+                <path
+                  d="M98 56 Q155 40 218 68"
+                  stroke="#68B8F8"
+                  stroke-width="10"
+                  stroke-linecap="round"
+                  stroke-dasharray="4 14"
+                />
+                <circle cx="135" cy="46" r="11" fill="#BFE3FF" stroke="#1E2E3E" stroke-width="2.5" />
+                <circle cx="175" cy="58" r="15" fill="#68B8F8" stroke="#1E2E3E" stroke-width="2.5" />
+                <circle cx="212" cy="44" r="10" fill="#DFF1FF" stroke="#1E2E3E" stroke-width="2.5" />
+                <circle cx="195" cy="86" r="12" fill="#BFE3FF" stroke="#1E2E3E" stroke-width="2.5" />
+                <text x="155" y="34" font-size="20">💧</text>
+              </g>
+            </g>
+          </g>
+
+          <!-- Pastel Waves of Han River & My Khe -->
+          <g class="ocean-waves">
+            <path
+              d="M12 395 Q65 378 118 395 T224 395 T330 395 T436 395 T542 395 T608 395 L608 488 L12 488 Z"
+              fill="#68B8F8"
+              stroke="#1E2E3E"
+              stroke-width="3.5"
+            />
+            <path
+              d="M12 435 Q65 420 118 435 T224 435 T330 435 T436 435 T542 435 T608 435 L608 488 L12 488 Z"
+              fill="#BFE3FF"
+              stroke="#1E2E3E"
+              stroke-width="3"
+            />
+          </g>
+
+          <!-- Cute Round Basket Boat (Thuyền Thúng Mỹ Khê) -->
+          <g class="basket-boat" transform="translate(155, 395)">
+            <path d="M0 20 C6 44, 54 44, 60 20 Z" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3" />
+            <ellipse cx="30" cy="20" rx="30" ry="7" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" />
+            <!-- Little Flag -->
+            <line x1="30" y1="16" x2="30" y2="-8" stroke="#1E2E3E" stroke-width="2.5" />
+            <path d="M30 -8 L48 -2 L30 4 Z" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 Cute Bouncy City Highlight Pills -->
+  <div class="container hero__stats">
+    {cityStats.map((stat) => (
+      <div class="stat-card">
+        <span class="stat-card__value">{stat.value}</span>
+        <span class="stat-card__label">
+          <I18nText t={stat.label} />
+        </span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 36px 0 64px;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .hero__title {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.08;
+  }
+
+  .hero__title-greeting {
+    font-size: clamp(28px, 3.8vw, 42px);
+    color: var(--ink-muted);
+  }
+
+  .hero__title-city {
+    font-size: clamp(46px, 6.5vw, 74px);
+    color: var(--ink-navy);
+    text-shadow: 0 4px 0 var(--pastel-yellow);
+  }
+
+  .hero__subtitle {
+    font-size: clamp(16px, 1.8vw, 18px);
+    color: var(--ink-muted);
+    max-width: 560px;
+  }
+
+  .dragon-status-box {
+    width: 100%;
+    max-width: 540px;
+    padding: 14px 20px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    border: var(--border-cute);
+    box-shadow: var(--shadow-cute-sm);
+    font-family: var(--font-display);
+    font-size: 15px;
+    transition: transform 0.25s var(--bounce-ease), background-color 0.25s ease;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dragon-card {
+    background: var(--bg-card);
+    border: var(--border-cute);
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: var(--shadow-cute);
+    position: relative;
+  }
+
+  .dragon-scene-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 30px;
+  }
+
+  :global(html[data-sky="night"]) .scene-sky {
+    fill: #132840;
+  }
+
+  :global(html[data-sky="night"]) .sun-orb {
+    fill: #FFF4C7;
+  }
+
+  :global(html[data-sky="night"]) .scene-stars {
+    opacity: 1;
+  }
+
+  .cloud-left {
+    animation: float-cloud 6s ease-in-out infinite;
+  }
+
+  .cloud-right {
+    animation: float-cloud 7.5s ease-in-out infinite reverse;
+  }
+
+  .cute-dragon-group {
+    animation: dragon-bob 4.2s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .basket-boat {
+    animation: dragon-bob 3.4s ease-in-out infinite;
+  }
+
+  .dragon-fire-fx,
+  .dragon-water-fx {
+    opacity: 0;
+    transform: scale(0.4);
+    transform-origin: 98px 56px;
+    transition: opacity 0.25s ease, transform 0.35s var(--bounce-ease);
+  }
+
+  .dragon-card[data-effect="fire"] .dragon-fire-fx {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .dragon-card[data-effect="water"] .dragon-water-fx {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .hero__stats {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: var(--border-cute);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-cute-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    transition: transform 0.25s var(--bounce-ease);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-card__value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--pastel-blue);
+  }
+
+  .stat-card__label {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 960px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .hero__stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

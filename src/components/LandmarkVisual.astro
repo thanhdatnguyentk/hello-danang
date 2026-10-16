@@ -1,0 +1,141 @@
+---
+interface Props {
+  type: 'dragon' | 'golden' | 'mykhe' | 'sontra' | 'marble' | 'love';
+}
+
+const { type } = Astro.props;
+---
+
+<div class="landmark-visual" data-visual={type} aria-hidden="true">
+  {type === 'dragon' && (
+    <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="248" height="158" rx="22" fill="#FFF4C7" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Bridge & Golden Dragon Arch -->
+      <path d="M26 122 C65 62, 115 62, 152 122 C175 84, 200 84, 224 122" stroke="#FFE07D" stroke-width="18" stroke-linecap="round" />
+      <path d="M26 122 C65 62, 115 62, 152 122 C175 84, 200 84, 224 122" stroke="#1E2E3E" stroke-width="3" stroke-linecap="round" />
+      <line x1="16" y1="124" x2="244" y2="124" stroke="#1E2E3E" stroke-width="4" />
+      <!-- Cute Dragon Head -->
+      <g class="anim-float" transform="translate(188, 52)">
+        <rect x="0" y="10" width="44" height="36" rx="18" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3" />
+        <circle cx="28" cy="24" r="3.5" fill="#1E2E3E" />
+        <ellipse cx="22" cy="31" rx="4" ry="2.5" fill="#FFA8C5" />
+        <circle cx="52" cy="24" r="7" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2.5" />
+      </g>
+      <path d="M16 142 Q65 132 115 142 T244 142" stroke="#68B8F8" stroke-width="5" stroke-linecap="round" />
+    </svg>
+  )}
+
+  {type === 'golden' && (
+    <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="248" height="158" rx="22" fill="#DFF1FF" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Fluffy Clouds -->
+      <g class="anim-cloud">
+        <circle cx="54" cy="130" r="24" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="2.5" />
+        <circle cx="84" cy="136" r="20" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="2.5" />
+        <circle cx="184" cy="134" r="22" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="2.5" />
+        <circle cx="212" cy="128" r="25" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="2.5" />
+      </g>
+      <!-- Golden Bridge Ribbon -->
+      <path d="M24 96 Q130 56 236 96" stroke="#FFE07D" stroke-width="14" stroke-linecap="round" />
+      <path d="M24 96 Q130 56 236 96" stroke="#1E2E3E" stroke-width="3" stroke-linecap="round" />
+      <!-- Cute Giant Hands Supporting Bridge -->
+      <rect x="74" y="76" width="32" height="52" rx="14" fill="#D7FAEC" stroke="#1E2E3E" stroke-width="3" />
+      <rect x="154" y="76" width="32" height="52" rx="14" fill="#D7FAEC" stroke="#1E2E3E" stroke-width="3" />
+      <circle cx="130" cy="42" r="12" fill="#FFE07D" stroke="#1E2E3E" stroke-width="2.5" />
+    </svg>
+  )}
+
+  {type === 'mykhe' && (
+    <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="248" height="158" rx="22" fill="#DFF1FF" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Sunny Sky & Pastel Beach Umbrella -->
+      <circle cx="52" cy="46" r="18" fill="#FFE07D" stroke="#1E2E3E" stroke-width="2.5" />
+      <!-- Sandy Shore & Turquoise Waves -->
+      <path d="M8 128 Q130 108 252 128 L252 162 L8 162 Z" fill="#FFF4C7" stroke="#1E2E3E" stroke-width="3" />
+      <path d="M8 106 Q70 92 130 106 T252 106 L252 132 L8 132 Z" fill="#68B8F8" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Cute Parasol -->
+      <g class="anim-float" transform="translate(150, 44)">
+        <line x1="32" y1="20" x2="22" y2="82" stroke="#1E2E3E" stroke-width="3.5" stroke-linecap="round" />
+        <path d="M0 30 C8 0, 56 0, 64 30 Z" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" />
+      </g>
+      <!-- Basket Boat -->
+      <ellipse cx="86" cy="106" rx="22" ry="9" fill="#FFE07D" stroke="#1E2E3E" stroke-width="2.5" />
+    </svg>
+  )}
+
+  {type === 'sontra' && (
+    <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="248" height="158" rx="22" fill="#D7FAEC" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Green Son Tra Hills -->
+      <path d="M8 148 Q85 68 175 148 Z" fill="#8AE6C1" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Cute Chibi Douc Langur (Voọc Chà Vá) -->
+      <g class="anim-float" transform="translate(152, 46)">
+        <circle cx="38" cy="44" r="28" fill="#1E2E3E" />
+        <circle cx="38" cy="44" r="20" fill="#FFE07D" stroke="#1E2E3E" stroke-width="2.5" />
+        <circle cx="31" cy="41" r="3" fill="#1E2E3E" />
+        <circle cx="45" cy="41" r="3" fill="#1E2E3E" />
+        <ellipse cx="26" cy="47" rx="3.5" ry="2" fill="#FFA8C5" />
+        <ellipse cx="50" cy="47" rx="3.5" ry="2" fill="#FFA8C5" />
+        <path d="M34 48 Q38 52 42 48" stroke="#1E2E3E" stroke-width="2" stroke-linecap="round" fill="none" />
+      </g>
+      <!-- Lady Buddha White Lotus Tower Silhouette -->
+      <rect x="58" y="62" width="24" height="58" rx="12" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="3" />
+      <circle cx="70" cy="52" r="10" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="3" />
+    </svg>
+  )}
+
+  {type === 'marble' && (
+    <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="248" height="158" rx="22" fill="#E5F2FC" stroke="#1E2E3E" stroke-width="3" />
+      <!-- 5 Cute Marble Mountain Peaks (Kim Mộc Thủy Hỏa Thổ) -->
+      <path d="M22 146 L54 78 L86 146 Z" fill="#8AE6C1" stroke="#1E2E3E" stroke-width="3" stroke-linejoin="round" />
+      <path d="M68 146 L108 52 L148 146 Z" fill="#68B8F8" stroke="#1E2E3E" stroke-width="3" stroke-linejoin="round" />
+      <path d="M128 146 L166 66 L204 146 Z" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3" stroke-linejoin="round" />
+      <path d="M182 146 L214 84 L242 146 Z" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" stroke-linejoin="round" />
+      <!-- Floating Cloud -->
+      <g class="anim-cloud">
+        <rect x="78" y="34" width="64" height="20" rx="10" fill="#FFFFFF" stroke="#1E2E3E" stroke-width="2.5" />
+      </g>
+    </svg>
+  )}
+
+  {type === 'love' && (
+    <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="248" height="158" rx="22" fill="#FFE2EC" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Love Bridge Pier & Heart Lanterns -->
+      <line x1="20" y1="130" x2="240" y2="130" stroke="#1E2E3E" stroke-width="4" />
+      <line x1="72" y1="76" x2="72" y2="130" stroke="#1E2E3E" stroke-width="3" />
+      <line x1="130" y1="64" x2="130" y2="130" stroke="#1E2E3E" stroke-width="3" />
+      <line x1="188" y1="76" x2="188" y2="130" stroke="#1E2E3E" stroke-width="3" />
+      <!-- Cute Floating Hearts -->
+      <g class="anim-float">
+        <circle cx="72" cy="64" r="18" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" />
+        <text x="72" y="70" text-anchor="middle" font-size="16">💖</text>
+        <circle cx="130" cy="50" r="22" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3" />
+        <text x="130" y="57" text-anchor="middle" font-size="18">💝</text>
+        <circle cx="188" cy="64" r="18" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="3" />
+        <text x="188" y="70" text-anchor="middle" font-size="16">💖</text>
+      </g>
+    </svg>
+  )}
+</div>
+
+<style>
+  .landmark-visual {
+    width: 100%;
+  }
+
+  .landmark-visual svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .anim-float {
+    animation: dragon-bob 3.6s ease-in-out infinite;
+  }
+
+  .anim-cloud {
+    animation: float-cloud 5s ease-in-out infinite;
+  }
+</style>

@@ -1,0 +1,17 @@
+{
+  "name": "hello-danang",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hello Đà Nẵng! — Cute Pastel Animated Interactive City Guide (VI / EN / JA)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.18"
+  }
+}

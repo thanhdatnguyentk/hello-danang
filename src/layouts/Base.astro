@@ -1,0 +1,249 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Hello Đà Nẵng! 🐉🏖️ — Cẩm Nang Hoạt Hình Dễ Thương',
+  description = 'Khám phá Đà Nẵng qua lăng kính hoạt hình Pastel dễ thương: Bé Rồng Cầu Rồng phun lửa, Cầu Vàng Bà Nà, biển Mỹ Khê, bán đảo Sơn Trà và hộ chiếu ẩm thực xứ Quảng!',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="vi" data-lang="vi" data-sky="day">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f2f9ff" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts: Fredoka + Quicksand + Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+JP:wght@500;700&family=Quicksand:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Pre-paint language & sky initializer -->
+    <script is:inline>
+      (function () {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var urlLang = params.get('lang');
+          var savedLang = localStorage.getItem('danang_lang');
+          var lang =
+            urlLang === 'vi' || urlLang === 'en' || urlLang === 'ja'
+              ? urlLang
+              : savedLang === 'vi' || savedLang === 'en' || savedLang === 'ja'
+                ? savedLang
+                : 'vi';
+          document.documentElement.setAttribute('data-lang', lang);
+          document.documentElement.setAttribute('lang', lang);
+
+          var savedSky = localStorage.getItem('danang_sky');
+          if (savedSky === 'night' || savedSky === 'day') {
+            document.documentElement.setAttribute('data-sky', savedSky);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+
+    <!-- Interactive Cute Animations & Passport Controller -->
+    <script>
+      const TOTAL_FOODS = 5;
+
+      function spawnCuteParticles(originEl: HTMLElement | null, emojis: string[], count = 10) {
+        if (!originEl) return;
+        const rect = originEl.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+
+        for (let i = 0; i < count; i++) {
+          const span = document.createElement('span');
+          span.className = 'fx-particle';
+          span.textContent = emojis[i % emojis.length];
+          const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+          const dist = 65 + Math.random() * 85;
+          const tx = Math.cos(angle) * dist;
+          const ty = Math.sin(angle) * dist - 40;
+          const rot = -35 + Math.random() * 70;
+          span.style.left = `${cx}px`;
+          span.style.top = `${cy}px`;
+          span.style.setProperty('--tx', `${tx}px`);
+          span.style.setProperty('--ty', `${ty}px`);
+          span.style.setProperty('--rot', `${rot}deg`);
+          document.body.appendChild(span);
+          setTimeout(() => span.remove(), 1150);
+        }
+      }
+
+      // 1. Language Switcher (VI / EN / JA)
+      function initLangSwitcher() {
+        const buttons = document.querySelectorAll<HTMLButtonElement>('[data-set-lang]');
+        buttons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-set-lang');
+            if (!lang) return;
+            document.documentElement.setAttribute('data-lang', lang);
+            document.documentElement.setAttribute('lang', lang);
+            try {
+              localStorage.setItem('danang_lang', lang);
+            } catch {}
+          });
+        });
+      }
+
+      // 2. Day / Night Sky Switcher
+      function syncSkyIcons(sky: string) {
+        const dayIcon = document.querySelector<HTMLElement>('.sky-icon-day');
+        const nightIcon = document.querySelector<HTMLElement>('.sky-icon-night');
+        if (dayIcon && nightIcon) {
+          dayIcon.style.display = sky === 'night' ? 'none' : 'inline';
+          nightIcon.style.display = sky === 'night' ? 'inline' : 'none';
+        }
+      }
+
+      function toggleSky(triggerEl: HTMLElement | null) {
+        const current = document.documentElement.getAttribute('data-sky') || 'day';
+        const next = current === 'day' ? 'night' : 'day';
+        document.documentElement.setAttribute('data-sky', next);
+        syncSkyIcons(next);
+        try {
+          localStorage.setItem('danang_sky', next);
+        } catch {}
+        spawnCuteParticles(triggerEl, next === 'night' ? ['🌙', '✨', '🏮', '⭐'] : ['☀️', '🏖️', '☁️', '🌊'], 8);
+      }
+
+      // 3. Baby Dragon Fire & Water Show
+      function initDragonHero() {
+        const stage = document.getElementById('dragon-stage');
+        const btnFire = document.getElementById('btn-dragon-fire');
+        const btnWater = document.getElementById('btn-dragon-water');
+        const btnHeroSky = document.getElementById('btn-hero-sky');
+        const btnHeaderSky = document.getElementById('header-sky-toggle');
+        const statusMsgs = document.querySelectorAll<HTMLElement>('.dragon-status-msg');
+
+        function setDragonMood(mood: 'idle' | 'fire' | 'water') {
+          if (stage) stage.setAttribute('data-effect', mood);
+          statusMsgs.forEach((el) => {
+            el.style.display = el.getAttribute('data-mood') === mood ? 'inline' : 'none';
+          });
+        }
+
+        btnFire?.addEventListener('click', () => {
+          setDragonMood('fire');
+          spawnCuteParticles(btnFire, ['🔥', '💖', '✨', '🐉', '🌟'], 12);
+        });
+
+        btnWater?.addEventListener('click', () => {
+          setDragonMood('water');
+          spawnCuteParticles(btnWater, ['💧', '🫧', '🌊', '🐳', '✨'], 12);
+        });
+
+        btnHeroSky?.addEventListener('click', () => toggleSky(btnHeroSky));
+        btnHeaderSky?.addEventListener('click', () => toggleSky(btnHeaderSky));
+
+        syncSkyIcons(document.documentElement.getAttribute('data-sky') || 'day');
+      }
+
+      // 4. Foodie Stamp Passport Collector
+      function initFoodPassport() {
+        const storageKey = 'danang_food_stamps';
+        let stampedIds: string[] = [];
+        try {
+          const raw = localStorage.getItem(storageKey);
+          if (raw) stampedIds = JSON.parse(raw);
+        } catch {}
+
+        const counterEl = document.getElementById('stamp-counter');
+        const fillEl = document.getElementById('stamp-progress-fill');
+        const congratsEl = document.getElementById('passport-congrats');
+        const resetBtn = document.getElementById('reset-passport-btn');
+
+        function renderStamps() {
+          const cards = document.querySelectorAll<HTMLElement>('[data-food-card]');
+          cards.forEach((card) => {
+            const id = card.getAttribute('data-food-card') || '';
+            const isStamped = stampedIds.includes(id);
+            card.classList.toggle('is-stamped', isStamped);
+            const unstampedLbl = card.querySelector<HTMLElement>('.lbl-unstamped');
+            const stampedLbl = card.querySelector<HTMLElement>('.lbl-stamped');
+            if (unstampedLbl && stampedLbl) {
+              unstampedLbl.style.display = isStamped ? 'none' : 'inline';
+              stampedLbl.style.display = isStamped ? 'inline' : 'none';
+            }
+          });
+
+          const count = stampedIds.length;
+          if (counterEl) counterEl.textContent = `${count} / ${TOTAL_FOODS}`;
+          if (fillEl) fillEl.style.width = `${Math.min(100, (count / TOTAL_FOODS) * 100)}%`;
+          if (congratsEl) congratsEl.style.display = count >= TOTAL_FOODS ? 'block' : 'none';
+        }
+
+        document.querySelectorAll<HTMLButtonElement>('[data-stamp-trigger]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-stamp-trigger');
+            if (!id) return;
+            if (stampedIds.includes(id)) {
+              stampedIds = stampedIds.filter((item) => item !== id);
+            } else {
+              stampedIds.push(id);
+              spawnCuteParticles(btn, ['😋', '💖', '🍜', '✨', '🎉'], 10);
+            }
+            try {
+              localStorage.setItem(storageKey, JSON.stringify(stampedIds));
+            } catch {}
+            renderStamps();
+          });
+        });
+
+        resetBtn?.addEventListener('click', () => {
+          stampedIds = [];
+          try {
+            localStorage.removeItem(storageKey);
+          } catch {}
+          renderStamps();
+        });
+
+        renderStamps();
+      }
+
+      // 5. Postcard Send Love Button
+      function initPostcardLove() {
+        const btn = document.getElementById('send-love-btn');
+        const badge = document.getElementById('love-count-badge');
+        let count = 143;
+        try {
+          const saved = localStorage.getItem('danang_love_count');
+          if (saved) count = parseInt(saved, 10) || 143;
+        } catch {}
+        if (badge) badge.textContent = String(count);
+
+        btn?.addEventListener('click', () => {
+          count += 1;
+          if (badge) badge.textContent = String(count);
+          try {
+            localStorage.setItem('danang_love_count', String(count));
+          } catch {}
+          spawnCuteParticles(btn, ['💖', '💝', '🐉', '🏖️', '🌸'], 12);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        initLangSwitcher();
+        initDragonHero();
+        initFoodPassport();
+        initPostcardLove();
+      });
+    </script>
+  </body>
+</html>

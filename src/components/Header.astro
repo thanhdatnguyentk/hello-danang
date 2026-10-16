@@ -1,0 +1,200 @@
+---
+import { uiText } from '../data/danang';
+import I18nText from './I18nText.astro';
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="#top" class="brand" aria-label="Hello Đà Nẵng Home">
+      <span class="brand__mascot" aria-hidden="true">🐉</span>
+      <div class="brand__text">
+        <span class="brand__title">Hello Đà Nẵng!</span>
+        <span class="brand__sub">
+          <I18nText t={uiText.brandSub} />
+        </span>
+      </div>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="#landmarks" class="site-nav__link">
+        <I18nText t={uiText.nav.landmarks} />
+      </a>
+      <a href="#food-passport" class="site-nav__link">
+        <I18nText t={uiText.nav.food} />
+      </a>
+      <a href="#itinerary" class="site-nav__link">
+        <I18nText t={uiText.nav.timeline} />
+      </a>
+      <a href="#postcard" class="site-nav__link">
+        <I18nText t={uiText.nav.postcard} />
+      </a>
+    </nav>
+
+    <div class="header-controls">
+      <button
+        type="button"
+        class="sky-toggle-btn"
+        id="header-sky-toggle"
+        aria-label="Toggle Day and Night sky"
+        title="Toggle Day / Night"
+      >
+        <span class="sky-icon-day">☀️</span>
+        <span class="sky-icon-night" style="display:none">🌙</span>
+      </button>
+
+      <div class="lang-pill" role="group" aria-label="Language switcher">
+        <button type="button" class="lang-pill__btn" data-set-lang="vi">VI</button>
+        <button type="button" class="lang-pill__btn" data-set-lang="en">EN</button>
+        <button type="button" class="lang-pill__btn" data-set-lang="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 14px;
+    z-index: 100;
+    padding-inline: 12px;
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border: var(--border-cute);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-cute-sm);
+  }
+
+  :global(html[data-sky="night"]) .site-header__inner {
+    background: rgba(29, 53, 80, 0.92);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand__mascot {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--pastel-yellow);
+    border: 2.5px solid #1e2e3e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transition: transform 0.3s var(--bounce-ease);
+  }
+
+  .brand:hover .brand__mascot {
+    transform: rotate(-12deg) scale(1.1);
+  }
+
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.1;
+  }
+
+  .brand__sub {
+    font-size: 11.5px;
+    color: var(--ink-muted);
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .site-nav__link {
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s var(--bounce-ease);
+  }
+
+  .site-nav__link:hover {
+    background: var(--bg-ocean-soft);
+    transform: translateY(-2px);
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sky-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--pastel-blue-soft);
+    border: 2.5px solid #1e2e3e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 3px 0 #1e2e3e;
+    transition: transform 0.2s var(--bounce-ease);
+  }
+
+  .sky-toggle-btn:hover {
+    transform: scale(1.08) rotate(12deg);
+  }
+
+  .lang-pill {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg-ocean-soft);
+    border: 2.5px solid #1e2e3e;
+    border-radius: var(--radius-pill);
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .lang-pill__btn {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
+    color: var(--ink-navy);
+    opacity: 0.65;
+    transition: all 0.2s ease;
+  }
+
+  :global(html[data-lang="vi"]) .lang-pill__btn[data-set-lang="vi"],
+  :global(html[data-lang="en"]) .lang-pill__btn[data-set-lang="en"],
+  :global(html[data-lang="ja"]) .lang-pill__btn[data-set-lang="ja"] {
+    background: var(--pastel-blue);
+    color: #fff;
+    opacity: 1;
+  }
+
+  @media (max-width: 900px) {
+    .site-nav {
+      display: none;
+    }
+    .brand__sub {
+      display: none;
+    }
+  }
+</style>
