@@ -1,14 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <circle cx="32" cy="32" r="30" fill="#7CC6FE" stroke="#1E2E3E" stroke-width="3.5"/>
-  <!-- Cute Baby Dragon Head -->
-  <path d="M18 18 L22 10 L27 17" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M46 18 L42 10 L37 17" fill="#FFA8C5" stroke="#1E2E3E" stroke-width="2.5" stroke-linejoin="round"/>
-  <rect x="14" y="16" width="36" height="32" rx="16" fill="#FFE07D" stroke="#1E2E3E" stroke-width="3"/>
-  <circle cx="24" cy="30" r="3.5" fill="#1E2E3E"/>
-  <circle cx="40" cy="30" r="3.5" fill="#1E2E3E"/>
-  <circle cx="25.2" cy="28.8" r="1.2" fill="#FFFFFF"/>
-  <circle cx="41.2" cy="28.8" r="1.2" fill="#FFFFFF"/>
-  <ellipse cx="19" cy="35" rx="3.5" ry="2" fill="#FFA8C5"/>
-  <ellipse cx="45" cy="35" rx="3.5" ry="2" fill="#FFA8C5"/>
-  <path d="M28 36 Q32 40 36 36" stroke="#1E2E3E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <rect width="64" height="64" rx="16" fill="#F7F8F5"/>
+  <circle cx="32" cy="32" r="24" stroke="#326B5B" stroke-width="2" stroke-opacity="0.35"/>
+  <circle cx="32" cy="32" r="16" stroke="#326B5B" stroke-width="2" stroke-opacity="0.65"/>
+  <path d="M32 14L38 30L32 27L26 30L32 14Z" fill="#326B5B"/>
+  <path d="M32 50L26 34L32 37L38 34L32 50Z" fill="#78857E" fill-opacity="0.55"/>
 </svg>
