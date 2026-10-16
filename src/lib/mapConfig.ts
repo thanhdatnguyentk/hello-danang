@@ -2,13 +2,13 @@ import type { StyleSpecification } from 'maplibre-gl';
 import type { MapStyleId } from '@/types/destination';
 
 /**
- * Legitimate, publicly accessible geospatial tile & DEM sources:
- * 1. Elevation DEM: AWS Registry of Open Data — Mapzen Terrarium DEM
+ * Verified zero-key geospatial tile & DEM sources (no API key watermark):
+ * 1. 3D Elevation DEM: AWS Registry of Open Data — Mapzen Terrarium DEM
  *    Endpoint: https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png
  *    Encoding: "terrarium" (R * 256 + G + B / 256 - 32768 meters)
- * 2. Natural Basemap: CARTO Voyager / Positron raster tiles
- * 3. Satellite Imagery: Esri World Imagery tiles
- * 4. Topographic Relief: Esri World Topographic Map tiles
+ * 2. Natural Basemap: Esri World Topographic Map (soft cartographic palette + Vietnamese labels)
+ * 3. Satellite Imagery: Esri World Imagery + Esri World Boundaries and Places labels
+ * 4. Terrain Relief: Esri World Hillshade + Physical/Topographic hybrid with enhanced 3D shading
  */
 export const DEM_SOURCE_ID = 'vietnam-dem';
 export const HILLSHADE_SOURCE_ID = 'vietnam-hillshade-dem';
@@ -34,20 +34,18 @@ export const MAP_STYLES: { id: MapStyleId; label: string; description: string }[
 export function createMapStyle(styleId: MapStyleId): StyleSpecification {
   const baseTiles: Record<MapStyleId, string[]> = {
     natural: [
-      'https://a.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}@2x.png',
-      'https://b.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}@2x.png',
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
     ],
     satellite: [
       'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     ],
     terrain: [
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}',
     ],
   };
 
   const labelTiles = [
-    'https://a.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}@2x.png',
-    'https://b.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}@2x.png',
+    'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
   ];
 
   return {
@@ -59,9 +57,7 @@ export function createMapStyle(styleId: MapStyleId): StyleSpecification {
         tiles: baseTiles[styleId],
         tileSize: 256,
         attribution:
-          styleId === 'natural'
-            ? '© OpenStreetMap contributors, © CARTO'
-            : '© Esri, Maxar, Earthstar Geographics, OpenStreetMap',
+          '© Esri, USGS, NOAA, OpenStreetMap contributors',
         maxzoom: 18,
       },
       'label-tiles': {
@@ -72,7 +68,9 @@ export function createMapStyle(styleId: MapStyleId): StyleSpecification {
       },
       [DEM_SOURCE_ID]: {
         type: 'raster-dem',
-        tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+        tiles: [
+          'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png',
+        ],
         tileSize: 256,
         encoding: 'terrarium',
         maxzoom: 15,
@@ -80,7 +78,9 @@ export function createMapStyle(styleId: MapStyleId): StyleSpecification {
       },
       [HILLSHADE_SOURCE_ID]: {
         type: 'raster-dem',
-        tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+        tiles: [
+          'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png',
+        ],
         tileSize: 256,
         encoding: 'terrarium',
         maxzoom: 15,
@@ -88,14 +88,15 @@ export function createMapStyle(styleId: MapStyleId): StyleSpecification {
     },
     terrain: {
       source: DEM_SOURCE_ID,
-      exaggeration: styleId === 'terrain' ? 1.32 : 1.22,
+      exaggeration: styleId === 'terrain' ? 1.36 : 1.24,
     },
     layers: [
       {
         id: 'background-layer',
         type: 'background',
         paint: {
-          'background-color': styleId === 'satellite' ? '#0d1b24' : '#DCE9E8',
+          'background-color':
+            styleId === 'satellite' ? '#0d1b24' : '#DCE9E8',
         },
       },
       {
@@ -104,8 +105,18 @@ export function createMapStyle(styleId: MapStyleId): StyleSpecification {
         source: 'base-tiles',
         paint: {
           'raster-opacity': 1,
-          'raster-saturation': styleId === 'natural' ? -0.18 : styleId === 'terrain' ? -0.12 : 0.04,
-          'raster-contrast': styleId === 'satellite' ? 0.08 : 0.03,
+          'raster-saturation':
+            styleId === 'natural'
+              ? -0.14
+              : styleId === 'terrain'
+                ? -0.08
+                : 0.05,
+          'raster-contrast':
+            styleId === 'satellite'
+              ? 0.08
+              : styleId === 'terrain'
+                ? 0.12
+                : 0.02,
           'raster-fade-duration': 250,
         },
       },
@@ -114,22 +125,28 @@ export function createMapStyle(styleId: MapStyleId): StyleSpecification {
         type: 'hillshade',
         source: HILLSHADE_SOURCE_ID,
         paint: {
-          'hillshade-exaggeration': styleId === 'terrain' ? 0.55 : styleId === 'natural' ? 0.42 : 0.25,
-          'hillshade-shadow-color': styleId === 'satellite' ? '#091318' : '#253932',
+          'hillshade-exaggeration':
+            styleId === 'terrain'
+              ? 0.65
+              : styleId === 'natural'
+                ? 0.45
+                : 0.26,
+          'hillshade-shadow-color':
+            styleId === 'satellite' ? '#091318' : '#243A32',
           'hillshade-highlight-color': '#F7F8F5',
-          'hillshade-accent-color': '#5A786A',
+          'hillshade-accent-color': '#4F7163',
           'hillshade-illumination-direction': 315,
           'hillshade-illumination-anchor': 'viewport',
         },
       },
-      ...(styleId !== 'terrain'
+      ...(styleId !== 'natural'
         ? [
             {
               id: 'place-labels-layer',
               type: 'raster' as const,
               source: 'label-tiles',
               paint: {
-                'raster-opacity': styleId === 'satellite' ? 0.85 : 0.9,
+                'raster-opacity': styleId === 'satellite' ? 0.9 : 0.85,
               },
             },
           ]
