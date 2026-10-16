@@ -48,6 +48,181 @@ body {
   scrollbar-width: none;
 }
 
+/* ==========================================================================
+   Premium Editorial 3D Atlas Markers (.atlas-marker)
+   ========================================================================== */
+
+@keyframes atlasPulseRing {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.75;
+  }
+  70% {
+    transform: scale(2.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.35);
+    opacity: 0;
+  }
+}
+
+.atlas-marker {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  z-index: 1;
+  transition: z-index 0.15s ease;
+}
+
+.atlas-marker:hover,
+.atlas-marker.is-active {
+  z-index: 30 !important;
+}
+
+.atlas-marker__ring {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background-color: rgba(50, 107, 91, 0.32);
+  border: 1.5px solid rgba(50, 107, 91, 0.65);
+  animation: atlasPulseRing 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  pointer-events: none;
+}
+
+.atlas-marker__dot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1.5px solid rgba(50, 107, 91, 0.35);
+  box-shadow: 0 3px 10px rgba(23, 34, 31, 0.22);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.atlas-marker:hover .atlas-marker__dot {
+  transform: scale(1.22);
+  border-color: #326B5B;
+  box-shadow: 0 6px 16px rgba(23, 34, 31, 0.3);
+}
+
+.atlas-marker__dot.is-selected {
+  width: 20px;
+  height: 20px;
+  background: #326B5B;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 6px 18px rgba(50, 107, 91, 0.45);
+  transform: scale(1.12);
+}
+
+.atlas-marker__core {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background-color: #326B5B;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.atlas-marker__dot.is-selected .atlas-marker__core {
+  width: 6px;
+  height: 6px;
+  background-color: #FFFFFF;
+}
+
+.atlas-marker__number {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background-color: #326B5B;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 4px 14px rgba(23, 34, 31, 0.28);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.atlas-marker:hover .atlas-marker__number,
+.atlas-marker__number.is-selected {
+  transform: scale(1.16);
+  background-color: #245343;
+}
+
+.atlas-marker__label {
+  position: absolute;
+  left: calc(100% + 7px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 9px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(229, 234, 229, 0.95);
+  box-shadow: 0 4px 14px rgba(23, 34, 31, 0.12);
+  color: #17221F;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.2s ease;
+}
+
+.dark .atlas-marker__label {
+  background: rgba(23, 34, 31, 0.92);
+  border-color: rgba(45, 68, 60, 0.9);
+  color: #F0F4F1;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.atlas-marker__label.is-selected {
+  background: #17221F;
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .atlas-marker__label.is-selected {
+  background: #326B5B;
+  color: #FFFFFF;
+}
+
+.atlas-marker__elev {
+  font-size: 9.5px;
+  font-weight: 500;
+  color: #326B5B;
+  background: rgba(50, 107, 91, 0.1);
+  padding: 1px 5px;
+  border-radius: 9999px;
+}
+
+.dark .atlas-marker__elev {
+  color: #88CBB6;
+  background: rgba(136, 203, 182, 0.14);
+}
+
+.atlas-marker__label.is-selected .atlas-marker__elev {
+  color: #9EE0CB;
+  background: rgba(255, 255, 255, 0.14);
+}
+
 /* MapLibre GL attribution styling for minimal visual footprint */
 .maplibregl-ctrl-attrib {
   background-color: rgba(247, 248, 245, 0.72) !important;

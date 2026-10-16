@@ -15,6 +15,7 @@ import { MapControls } from './MapControls';
 
 const JOURNEY_SOURCE_ID = 'journey-route-source';
 const JOURNEY_LAYER_ID = 'journey-route-layer';
+const JOURNEY_GLOW_LAYER_ID = 'journey-route-glow-layer';
 
 export function TerrainMap() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -26,11 +27,42 @@ export function TerrainMap() {
   const [currentPitch, setCurrentPitch] = useState(OVERVIEW_CAMERA.pitch);
 
   const mapStyle = useExplorerStore((s) => s.mapStyle);
+  const isDarkUI = useExplorerStore((s) => s.isDarkUI);
   const activeTab = useExplorerStore((s) => s.activeTab);
   const isPlayingJourney = useExplorerStore((s) => s.isPlayingJourney);
 
   const { filteredDestinations } = useDestinations();
   const { journeyDestinations } = useJourney();
+
+  const applyAtmosphericSky = (
+    mapInstance: MapLibreMap,
+    styleId: string,
+    dark: boolean
+  ) => {
+    try {
+      if (styleId === 'satellite' || (styleId === 'natural' && dark)) {
+        mapInstance.setSky({
+          'sky-color': '#091417',
+          'sky-horizon-blend': 0.5,
+          'horizon-color': '#182C28',
+          'horizon-fog-blend': 0.55,
+          'fog-color': '#0F1B19',
+          'fog-ground-blend': 0.3,
+        });
+      } else {
+        mapInstance.setSky({
+          'sky-color': '#CFE2E1',
+          'sky-horizon-blend': 0.45,
+          'horizon-color': '#F4F6F1',
+          'horizon-fog-blend': 0.55,
+          'fog-color': '#F7F8F5',
+          'fog-ground-blend': 0.22,
+        });
+      }
+    } catch {
+      // Graceful fallback if setSky is unavailable on older GPU drivers
+    }
+  };
 
   // Initialize MapLibre GL JS instance once
   useEffect(() => {
@@ -41,12 +73,12 @@ export function TerrainMap() {
     try {
       mapInstance = new maplibregl.Map({
         container: containerRef.current,
-        style: createMapStyle(mapStyle),
+        style: createMapStyle(mapStyle, isDarkUI),
         center: OVERVIEW_CAMERA.center,
         zoom: OVERVIEW_CAMERA.zoom,
         pitch: OVERVIEW_CAMERA.pitch,
         bearing: OVERVIEW_CAMERA.bearing,
-        maxPitch: 75,
+        maxPitch: 76,
         minZoom: 4.3,
         maxZoom: 16.5,
         attributionControl: false,
@@ -59,19 +91,8 @@ export function TerrainMap() {
 
       mapInstance.on('load', () => {
         setIsMapLoaded(true);
-
-        // Configure atmospheric sky for 3D horizon depth
-        try {
-          mapInstance?.setSky({
-            'sky-color': '#DCE9E8',
-            'sky-horizon-blend': 0.45,
-            'horizon-color': '#F7F8F5',
-            'horizon-fog-blend': 0.5,
-            'fog-color': '#F7F8F5',
-            'fog-ground-blend': 0.25,
-          });
-        } catch {
-          // Graceful fallback if setSky is unavailable on older GPU drivers
+        if (mapInstance) {
+          applyAtmosphericSky(mapInstance, mapStyle, isDarkUI);
         }
       });
 
@@ -99,26 +120,27 @@ export function TerrainMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update map style when user switches between Natural, Satellite, and Terrain
+  // Update map style when user switches between Natural, Satellite, Terrain, or Dark UI
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !isMapLoaded) return;
 
-    map.setStyle(createMapStyle(mapStyle));
+    map.setStyle(createMapStyle(mapStyle, isDarkUI));
 
     const handleStyleData = () => {
+      applyAtmosphericSky(map, mapStyle, isDarkUI);
       if (terrainSupported && map.getSource(DEM_SOURCE_ID)) {
         try {
           map.setTerrain({
             source: DEM_SOURCE_ID,
-            exaggeration: mapStyle === 'terrain' ? 1.32 : 1.22,
+            exaggeration: mapStyle === 'terrain' ? 1.42 : 1.28,
           });
         } catch {}
       }
     };
 
     map.once('styledata', handleStyleData);
-  }, [mapStyle, isMapLoaded, terrainSupported]);
+  }, [mapStyle, isDarkUI, isMapLoaded, terrainSupported]);
 
   // Render subtle geographic connection line for Journey Mode
   useEffect(() => {
@@ -148,7 +170,7 @@ export function TerrainMap() {
             data: geojson,
           });
           map.addLayer({
-            id: JOURNEY_LAYER_ID,
+            id: JOURNEY_GLOW_LAYER_ID,
             type: 'line',
             source: JOURNEY_SOURCE_ID,
             layout: {
@@ -157,9 +179,24 @@ export function TerrainMap() {
             },
             paint: {
               'line-color': '#326B5B',
+              'line-width': 7,
+              'line-opacity': 0.2,
+              'line-blur': 3,
+            },
+          });
+          map.addLayer({
+            id: JOURNEY_LAYER_ID,
+            type: 'line',
+            source: JOURNEY_SOURCE_ID,
+            layout: {
+              'line-cap': 'round',
+              'line-join': 'round',
+            },
+            paint: {
+              'line-color': mapStyle === 'satellite' ? '#7BC4AE' : '#326B5B',
               'line-width': 2.5,
-              'line-dasharray': [2.5, 2.5],
-              'line-opacity': 0.82,
+              'line-dasharray': [2.2, 2.2],
+              'line-opacity': 0.9,
             },
           });
         } catch {}
@@ -177,10 +214,11 @@ export function TerrainMap() {
     isPlayingJourney,
     journeyDestinations,
     mapStyle,
+    isDarkUI,
   ]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#DCE9E8] select-none">
+    <div className="relative w-screen h-screen overflow-hidden bg-[#DCE9E8] dark:bg-[#0C1618] select-none">
       {/* Fullscreen WebGL 3D Terrain Canvas */}
       <div
         ref={containerRef}
@@ -188,12 +226,21 @@ export function TerrainMap() {
         aria-label="Bản đồ địa hình 3D Việt Nam"
       />
 
+      {/* Subtle Edge Atmospheric Vignette for Depth */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(circle at 50% 50%, transparent 68%, rgba(23, 34, 31, 0.08) 100%)',
+        }}
+      />
+
       {/* Subtle Loading Overlay before WebGL ready */}
       {!isMapLoaded && (
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#F7F8F5]/90 backdrop-blur-sm transition-opacity">
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#F7F8F5]/90 dark:bg-[#0F1715]/90 backdrop-blur-sm transition-opacity">
           <div className="w-8 h-8 rounded-full border-2 border-[#326B5B]/25 border-t-[#326B5B] animate-spin mb-3" />
           <p className="text-xs font-medium tracking-wide text-[#78857E]">
-            Đang dựng địa hình 3D Việt Nam...
+            Đang dựng địa hình Vector 3D Việt Nam...
           </p>
         </div>
       )}
